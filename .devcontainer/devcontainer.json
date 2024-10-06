@@ -40,7 +40,7 @@
 		},
 		"codespaces": {
 			"repositories": {
-			  "broadinstitute/ml4h": {
+			  "shardulsrivastava/ml4h": {
 				"permissions": "read-all"
 			  }
 			}
