@@ -9,7 +9,13 @@ echo "Building Backend"
 docker build -f backend/Dockerfile backend/
 
 echo "Running Backend"
-docker run backend
+docker run --rm -p 8081:8081 backend 
+
+echo "Testing the application"
+curl --header "Content-Type: application/json" \
+        --request POST \
+        --data '{"username":"xyz","password":"xyz"}' \
+        https://ideal-barnacle-ggxpw59g7wfvwv4-8081.app.github.dev/predict
 
 # Check out Repository
 # cd ../ && git lfs install --skip-smudge
