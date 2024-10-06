@@ -41,7 +41,7 @@
 		"codespaces": {
 			"repositories": {
 			  "shardulsrivastava/ml4h": {
-				"permissions": "read-all"
+				"permissions": "write-all"
 			  }
 			}
 		  }
