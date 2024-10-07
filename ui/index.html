@@ -13,7 +13,7 @@
         <div class="bg-gray-800 p-8 rounded shadow-lg w-full max-w-md">
             <h2 class="text-2xl font-bold text-center mb-6 text-gray-100">Submit Your Details</h2>
 
-            <form action="http://backend:8081" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <form id="data-form" enctype="multipart/form-data" class="space-y-4">
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-400">Username:</label>
                     <input type="text" id="username" name="username" required 
@@ -28,7 +28,6 @@
 
                 <div>
                     <label for="file" class="block text-sm font-medium text-gray-400">Upload File:</label>
-                    <!-- Custom File Upload Styling -->
                     <div class="flex items-center">
                         <label for="file" class="cursor-pointer bg-indigo-600 text-white font-medium py-2 px-4 rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                             Choose a file
@@ -45,15 +44,43 @@
                     </button>
                 </div>
             </form>
+
+            <!-- Response Container -->
+            <div id="response-container" class="mt-6 text-gray-100"></div>
         </div>
     </div>
 
     <script>
+        // Handle file selection
         const fileInput = document.getElementById('file');
         const fileChosen = document.getElementById('file-chosen');
 
         fileInput.addEventListener('change', function(){
             fileChosen.textContent = this.files[0].name;
+        });
+
+        // Handle form submission
+        const form = document.getElementById('data-form');
+        const responseContainer = document.getElementById('response-container');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(form);
+
+            fetch('https://ideal-barnacle-ggxpw59g7wfvwv4-8081.app.github.dev/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text()) // Assuming the response is in plain text
+            .then(data => {
+                // Show the response from the server
+                responseContainer.innerHTML = `<p class="text-green-400">Success: ${data}</p>`;
+            })
+            .catch(error => {
+                // Show error message if the submission fails
+                responseContainer.innerHTML = `<p class="text-red-400">Error: ${error.message}</p>`;
+            });
         });
     </script>
 
