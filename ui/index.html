@@ -28,8 +28,14 @@
 
                 <div>
                     <label for="file" class="block text-sm font-medium text-gray-400">Upload File:</label>
-                    <input type="file" id="file" name="file" required
-                        class="mt-1 block w-full text-sm text-gray-400 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    <!-- Custom File Upload Styling -->
+                    <div class="flex items-center">
+                        <label for="file" class="cursor-pointer bg-indigo-600 text-white font-medium py-2 px-4 rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Choose a file
+                        </label>
+                        <span id="file-chosen" class="ml-3 text-gray-400">No file chosen</span>
+                    </div>
+                    <input type="file" id="file" name="file" required class="hidden">
                 </div>
 
                 <div>
@@ -41,6 +47,15 @@
             </form>
         </div>
     </div>
+
+    <script>
+        const fileInput = document.getElementById('file');
+        const fileChosen = document.getElementById('file-chosen');
+
+        fileInput.addEventListener('change', function(){
+            fileChosen.textContent = this.files[0].name;
+        });
+    </script>
 
 </body>
 </html>
