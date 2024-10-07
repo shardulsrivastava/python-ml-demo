@@ -3,6 +3,7 @@ import uvicorn
 from fastapi import File
 from fastapi import FastAPI
 from fastapi import UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import h5py
 import numpy as np
@@ -12,6 +13,17 @@ from ml4h.tensormap.ukb.survival import mgb_afib_wrt_instance2
 from ml4h.tensormap.ukb.demographics import age_2_wide, af_dummy, sex_dummy3
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 @app.get("/")
