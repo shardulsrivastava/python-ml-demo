@@ -21,7 +21,7 @@ def read_root():
 @app.post("/predict")
 # def get_prediction(file: UploadFile = File(...)):
 def get_prediction():
-    predict()
+    return predict()
 
 ECG_REST_LEADS = {
     'strip_I': 0, 'strip_II': 1, 'strip_III': 2, 'strip_V1': 3, 'strip_V2': 4, 'strip_V3':5,
@@ -41,7 +41,7 @@ def ecg_as_tensor(ecg_file):
         return tensor
 
 def predict():
-    tensor = ecg_as_tensor('ecg/strip_I_survival_curve_af_v2021_06_15.h5')
+    tensor = ecg_as_tensor('ecg/fake_0.hd5')
     tensor = np.expand_dims(tensor, axis=0)
     output_tensormaps = {tm.output_name(): tm for tm in [mgb_afib_wrt_instance2, age_2_wide, af_dummy, sex_dummy3]}
     custom_dict = get_custom_objects([mgb_afib_wrt_instance2, age_2_wide, af_dummy, sex_dummy3])
@@ -68,6 +68,7 @@ def predict():
             print(f'AF Risk {str(otm)} prediction is: {str(1 - predicted_survivals[0, -1])}')
         else:
             print(f'{otm} prediction is {pred}')
+    return prediction
 
 
 

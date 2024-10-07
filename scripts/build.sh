@@ -9,13 +9,13 @@ echo "Building Backend"
 docker build -f backend/Dockerfile backend/
 
 echo "Running Backend"
-docker run --rm -p 8081:8081 backend 
+docker run --rm -p 8081:8081 backend:v1
 
 # echo "Testing the application"
 curl --header "Content-Type: application/json" \
         --request POST \
         --data '{"username":"xyz","password":"xyz"}' \
-        https://localhost:8081/predict
+        http://localhost:8081/predict
 
 # Check out Repository
 # cd ../ && git lfs install --skip-smudge
