@@ -1,26 +1,12 @@
 services:
-
-  # ui:
-  #   image: nginx:latest
-  #   expose:
-  #     - "8080:80"
-  #   volumes:
-  #     - ./ui:/usr/share/nginx/html:ro
-  #   network_mode: 'host'
-  # app:
-  #   image: app
-  #   container_name: app
-  #   build:
-  #     context: app
-  #     dockerfile: Dockerfile
-  #   expose:
-  #     - "8501:8501"
-  #   network_mode: 'host'
-    # environment:
-    #   BACKEND_URL: "backend:8081"
-    # depends_on:
-    #   backend:
-    #     condition: service_healthy
+  ui:
+    image: nginx:latest
+    container_name: ui
+    ports:
+      - 8080:80
+    volumes:
+      - ./ui:/usr/share/nginx/html:ro
+#    network_mode: 'host'
 
   backend:
     image: backend
@@ -28,6 +14,6 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
-    expose:
-      - "8081:8081"
-    network_mode: 'host'
+    ports:
+      - 8081:8081
+#    network_mode: 'host'

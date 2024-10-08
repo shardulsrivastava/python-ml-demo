@@ -68,14 +68,14 @@
 
             const formData = new FormData(form);
 
-            fetch('https://ubiquitous-sniffle-px76qgxr6rh6g6-8081.app.github.dev/predict', {
+            fetch('http://localhost:8081/predict', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.text()) // Assuming the response is in plain text
             .then(data => {
                 // Show the response from the server
-                responseContainer.innerHTML = `<p class="text-green-400">Success: ${data}</p>`;
+                responseContainer.innerHTML = `<p class="text-green-400">Result: ${data}</p>`;
             })
             .catch(error => {
                 // Show error message if the submission fails
