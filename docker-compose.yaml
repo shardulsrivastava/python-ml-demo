@@ -1,12 +1,12 @@
 services:
 
-  ui:
-    image: nginx:latest
-    expose:
-      - "8080:80"
-    volumes:
-      - ./ui:/usr/share/nginx/html:ro
-    network_mode: 'host'
+  # ui:
+  #   image: nginx:latest
+  #   expose:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./ui:/usr/share/nginx/html:ro
+  #   network_mode: 'host'
   # app:
   #   image: app
   #   container_name: app

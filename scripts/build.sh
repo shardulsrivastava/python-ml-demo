@@ -5,6 +5,12 @@ set -euo pipefail
 # echo "Building App"
 # docker build -f app/Dockerfile app/
 
+# mkdir ~/.ssh; touch ~/.ssh/id_rsa; chmod 400 ~/.ssh/id_rsa
+# vi ~/.ssh/id_rsa # Add the key here
+
+# cd /workspaces; git clone git@github.com:broadinstitute/ml4h.git
+# cp ml4h/model_zoo/ECG2AF/ecg_5000_survival_curve_af_quadruple_task_mgh_v2021_05_21.h5 python-ml-demo/backend
+
 echo "Building Backend"
 docker build -f backend/Dockerfile backend/
 
@@ -15,7 +21,12 @@ docker run --rm -p 8081:8081 backend:v1
 curl --header "Content-Type: application/json" \
         --request POST \
         --data '{"username":"xyz","password":"xyz"}' \
-        http://localhost:8081/predict
+        https://ubiquitous-sniffle-px76qgxr6rh6g6-8081.app.github.dev/test
+
+curl -v --header "Content-Type: application/json" \
+        --request POST \
+        --data '{"username":"xyz","password":"xyz"}' \
+        http://localhost:8081/test
 
 # Check out Repository
 # cd ../ && git lfs install --skip-smudge

@@ -1,9 +1,13 @@
 import uuid
 import uvicorn
+import logging
 from fastapi import File
 from fastapi import FastAPI
 from fastapi import UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import Dict
+# from starlette.middleware.cors import CORSMiddleware
 from PIL import Image
 import h5py
 import numpy as np
@@ -12,19 +16,25 @@ from ml4h.models.model_factory import get_custom_objects
 from ml4h.tensormap.ukb.survival import mgb_afib_wrt_instance2
 from ml4h.tensormap.ukb.demographics import age_2_wide, af_dummy, sex_dummy3
 
-app = FastAPI()
+logger = logging.getLogger('uvicorn.error')
+logger.setLevel(logging.DEBUG)
 
-origins = ["*"]
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
+@app.on_event("startup")
+async def startup_event():
+    logger = logging.getLogger("uvicorn.access")
+    logger.setLevel(logging.DEBUG)
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+    logger.addHandler(handler)
 
 @app.get("/")
 def read_root():
@@ -32,8 +42,25 @@ def read_root():
 
 @app.post("/predict")
 # def get_prediction(file: UploadFile = File(...)):
-def get_prediction():
+async def get_prediction():
     return predict()
+
+# Create a Pydantic model for request body validation
+class UserData(BaseModel):
+    username: str
+    email: str
+
+# Define the POST route
+@app.post("/test")
+async def submit_data(user_data: UserData):
+    # Return the received data as a JSON response
+    return {
+        "message": "Data received successfully",
+        "data": {
+            "username": user_data.username,
+            "email": user_data.email
+        }
+    }
 
 ECG_REST_LEADS = {
     'strip_I': 0, 'strip_II': 1, 'strip_III': 2, 'strip_V1': 3, 'strip_V2': 4, 'strip_V3':5,
@@ -82,8 +109,5 @@ def predict():
             print(f'{otm} prediction is {pred}')
     return prediction
 
-
-
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0",port=8081)
-     
+    uvicorn.run("main:app", host="0.0.0.0",port=8081,log_level="debug")
