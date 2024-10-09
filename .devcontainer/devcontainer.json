@@ -42,8 +42,6 @@
 			"extensions": [
 				"streetsidesoftware.code-spell-checker",
 				"ms-azuretools.vscode-docker",
-				"vscjava.vscode-java-pack",
-				"redhat.java",
 				"redhat.vscode-yaml",
 				"aws-scripting-guy.cform",
 				"ms-python.python",
