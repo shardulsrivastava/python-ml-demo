@@ -38,7 +38,8 @@ set -euo pipefail
 # Skip smudge - We'll download binary files later in a faster batch
 # # git lfs install --force
 
-sleep 10
+echo "Waiting for 60 seconds"
+sleep 60
 
 echo "Building Images"
 docker-compose build
