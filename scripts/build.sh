@@ -45,4 +45,4 @@ echo "Building Images"
 docker-compose build
 
 echo "Running Application"
-docker-compose up
+docker-compose up -d
